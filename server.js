@@ -9,6 +9,7 @@ const projects = require('./routes/projects');
 const adminRoutes = require('./routes/admin');
 const app = express();
 const port = 3001;
+require('dotenv').config();
 
 app.use(cors());
 app.use(express.json({ limit: '50mb' })); // 50MB로 크기 제한 설정
@@ -71,7 +72,7 @@ app.get('/api/visit', (req, res) => {
 });
 
 // db 연결 & 방명록 저장
-mongoose.connect('mongodb+srv://minji:p33mk0chW29W5ewz@cluster0.7aje40r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
