@@ -8,11 +8,11 @@ const posts = require('./routes/posts');
 const projects = require('./routes/projects');
 const adminRoutes = require('./routes/admin');
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 require('dotenv').config();
 
 app.use(cors());
-app.use(express.json({ limit: '50mb' })); // 50MB로 크기 제한 설정
+app.use(express.json({ limit: '50mb' })); 
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 
@@ -77,7 +77,7 @@ mongoose.connect(process.env.MONGODB_URI, {
   useUnifiedTopology: true,
 })
 .then(() => {
-  console.log('MongoDB connected successfully!');
+  console.log('MongoDB connected successfully');
 })
 .catch((error) => {
   console.error('MongoDB connection error:', error);
@@ -110,6 +110,11 @@ app.post('/api/entries', async (req, res) => {
   await newEntry.save();
   res.json(newEntry);
 });
+
+app.get('/', (req, res) => {
+  res.send('Server is running!');
+});
+
 
 // 게시물 작성
 app.use('/api/posts', posts);
