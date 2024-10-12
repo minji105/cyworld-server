@@ -1,11 +1,8 @@
 const express = require('express');
-const path = require('path');
 const mongoose = require('mongoose');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
-const multer = require('multer');
 const posts = require('./routes/posts');
-const projects = require('./routes/projects');
 const adminRoutes = require('./routes/admin');
 const app = express();
 const port = process.env.PORT || 3001;
@@ -27,16 +24,6 @@ db.serialize(() => {
       count INTEGER
     )
   `);
-});
-
-// Multer 설정: 파일 저장 경로 및 파일명 설정
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
 });
 
 
@@ -119,14 +106,8 @@ app.get('/', (req, res) => {
 // 게시물 작성
 app.use('/api/posts', posts);
 
-// 프로젝트 작성
-app.use('/api/projects', projects);
-
 // 로그인
 app.use('/api/admin', adminRoutes);
-
-// 게시물 메인 이미지
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.listen(port, () => {
   console.log(`서버가 http://localhost:${port} 에서 실행 중입니다.`);
