@@ -21,9 +21,11 @@ const PostSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-},
-  { _id: false }
-);
+  username: {
+    type: String,
+    default: 'username',
+  },
+});
 
 PostSchema.methods.toJSON = function () {
   const obj = this.toObject();

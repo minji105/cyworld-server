@@ -19,9 +19,21 @@ router.get('/:title', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const newPost = new Post(req.body);
-  await newPost.save();
-  res.status(201).json(newPost);
+  try {
+    const { title, content, section } = req.body;
+
+    const newPost = new Post({
+      title,
+      content,
+      section,
+    });
+
+    await newPost.save();
+    res.status(201).json(newPost);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to post post' });
+  }
 });
 
 router.put('/:title', async (req, res) => {
