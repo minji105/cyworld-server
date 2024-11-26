@@ -21,7 +21,9 @@ const PostSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-});
+},
+  { _id: false }
+);
 
 PostSchema.methods.toJSON = function () {
   const obj = this.toObject();
